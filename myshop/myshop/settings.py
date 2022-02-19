@@ -42,7 +42,10 @@ INSTALLED_APPS = [
     # Apps
     'shop.apps.ShopConfig',
     'cart.apps.CartConfig',
-    'orders.apps.OrdersConfig'
+    'orders.apps.OrdersConfig',
+
+    # Fontawesome
+    'fontawesomefree',
 ]
 
 MIDDLEWARE = [
