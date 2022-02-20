@@ -3,22 +3,52 @@
 {% block title %}
   {{ product.name }}
 {% endblock %}
-{% block content %}
-  <div class="product-detail">
-    <img src="{% if product.image %}{{ product.image.url }}{% else %}
-    {% static "img/no_image.png" %}{% endif %}">
-    <h1>{{ product.name }}</h1>
-    <h2>
-      <a href="{{ product.category.get_absolute_url }}">
-        {{ product.category }}
-      </a>
-    </h2>
-    <p class="price">${{ product.price }}</p>
-    <form action="{% url "cart:cart_add" product.id %}" method="post">
-      {{ cart_product_form }}
-      {% csrf_token %}
-      <input type="submit" value="Add to cart">
-    </form>
-    {{ product.description|linebreaks }}
-  </div>
+{% block content %}  
+<div class="container-fluid mt-2 mb-3">
+    <div class="row row-cols-1 row-cols-md-2">
+        <div class="col">
+            <div>
+                <div class="images p-3">                      
+                  <img src="{% if product.image %}{{ product.image.url }}{% else %}
+                    {% static "img/no_image.png" %}{% endif %}" width="100%">                      
+                </div>
+            </div>           
+        </div>
+        <div class="col">
+            <div>
+                <div class="product">
+                  <div class="mt-1 mb-3"> 
+                    <h3 class="text-uppercase">{{ product.name }}</h3>
+                    <h5>
+                      <a href="{{ product.category.get_absolute_url }}">
+                        {{ product.category }}
+                      </a>
+                    </h5>
+                      <div class="price d-flex flex-row align-items-center"> <span class="act-price">${{ product.price }}</span>
+                      </div>
+                  </div>
+                <div>                  
+                  <form action="{% url "cart:cart_add" product.id %}" method="post">
+                    {{ cart_product_form }}
+                    {% csrf_token %}
+                    <input class="btn btn-danger text-uppercase mr-2 px-4" type="submit" value="Add to cart">
+                  </form>                   
+                </div>
+                <div class="product-description">                    
+                    <div class="mt-2"> <span class="font-weight-bold">Description</span>
+                        <p>{{ product.description|linebreaks }}</p>                        
+                    </div>                    
+                </div>
+                 <div class="mt-2">
+                <h6>Reviews</h6>
+                <div class="d-flex flex-row">
+                    <div class="stars"> <i class="fa fa-star"></i> <i class="fa fa-star"></i> <i class="fa fa-star"></i> <i class="fa fa-star"></i> </div> <span class="ml-1 font-weight-bold">4.6</span>
+                </div>               
+            </div>
+            </div>            
+        </div>
+    </div>
+</div>
+
+
 {% endblock %}
