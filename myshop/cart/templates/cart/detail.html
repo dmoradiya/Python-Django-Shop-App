@@ -4,21 +4,20 @@
   Your shopping cart
 {% endblock %}
 {% block content %}
-  <div class="card">
-    <div class="row">
-      <div class="col-12 col-md-8 cart">
+<div class="row">
+      <div class="card col-12 col-md-8 cart">
         <div class="title">
-          <div class="row">
+          <div class="row border-bottom">
             <div class="col">
               <h4><b>Shopping Cart</b></h4>
             </div>
             <div class="col align-self-center text-right text-muted">{{cart|length}} items</div>
           </div>
         </div>
-        <div class="row border-top border-bottom">
+        <div class="row mx-1">
           {% for item in cart %}
           {% with product=item.product %}
-          <div class="row main align-items-center">
+          <div class="row main align-items-center my-2">
                     <div class="col-2">
                       <a href="{{ product.get_absolute_url }}">
                         <img class="img-fluid" src="{% if product.image %}{{ product.image.url }}
@@ -51,33 +50,23 @@
             <div class="back-to-shop">
               <p class="text-right">
                 <a href="{% url "shop:product_list" %}" class="button
-                light">&leftarrow;Continue shopping</a>
-                <a href="{% url "orders:order_create" %}" class="button">Checkout</a>
+                light">&leftarrow;Continue shopping</a>                
               </p>
             </div>
         </div>
-        <div class="col-12 col-md-4 summary">
-            <div>
-                <h5><b>Summary</b></h5>
-            </div>
-            <hr>
+        <div class="card col-12 col-md-4 summary">
+            <div class="border-bottom">
+                <h4><b>Summary</b></h4>               
+            </div>               
             <div class="row">
-                <div class="col" style="padding-left:0;">ITEMS {{cart|length}}</div>
+                <div class="col">TOTAL PRICE:</div>
                 <div class="col text-right">${{cart.get_total_price}}</div>
             </div>
-            <form>
-                <p>SHIPPING</p> <select>
-                    <option class="text-muted">Free-Delivery- $0.00</option>
-                    <option class="text-muted">Standard-Delivery- $5.00</option>
-                </select>
-            </form>
-                 <p>TAX : GST(%5)</p><span>$100</span>                    
-                <p>GIVE CODE</p> <input id="code" placeholder="Enter your code">
-            <div class="row" style="border-top: 1px solid rgba(0,0,0,.1); padding: 2vh 0;">
-                <div class="col">TOTAL PRICE</div>
-                <div class="col text-right">${{cart.get_total_price}}</div>
-            </div> <button class="btn"> <a href="{% url "orders:order_create" %}">Checkout</a></button>
+            <div class="w-auto">
+              <button class="btn btn-primary"> <a class="text-white" href="{% url "orders:order_create" %}">Checkout</a></button>
+            </div>
         </div>
-    </div>
 </div>
+
+
 {% endblock %}
