@@ -32,7 +32,16 @@
               <h4 class="mb-0 font-weight-semibold">${{product.price}}</h4>
               <div> <i class="fa fa-star star"></i> <i class="fa fa-star star"></i> <i class="fa fa-star star"></i> <i class="fa fa-star star"></i> </div>
               <div class="text-muted mb-3">34 reviews</div> 
-              <button type="button" class="btn bg-primary"><i class="fa fa-cart-plus mr-2"></i> Add to cart</button>
+              <!-- <form action="{% url "cart:cart_add" product.id %}" method="post">
+                  {{ add_to_cart_products_form }}
+                  {% csrf_token %}
+                  <button type="submit" class="btn bg-primary"><i class="fa fa-cart-plus mr-2"></i> Add to cart</button>
+              </form>             -->
+              <form action="/" method="POST">
+                {% csrf_token %}
+                <input type="hidden" name="product" value="{{product.id}}">
+                <button type="submit" class="btn bg-primary"><i class="fa fa-cart-plus mr-2"></i> Add to cart</button>
+              </form>
           </div>
       </div>
     </div>  
