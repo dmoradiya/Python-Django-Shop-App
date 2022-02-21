@@ -1,5 +1,6 @@
 {% extends "shop/base.html" %}
 {% load static %}
+{% load cart %}
 {% block title %}
   {% if category %}{{ category.name }}{% else %}Products{% endif %}
 {% endblock %}
@@ -32,12 +33,25 @@
               <h4 class="mb-0 font-weight-semibold">${{product.price}}</h4>
               <div> <i class="fa fa-star star"></i> <i class="fa fa-star star"></i> <i class="fa fa-star star"></i> <i class="fa fa-star star"></i> </div>
               <div class="text-muted mb-3">34 reviews</div> 
-             
+             {% if product|is_in_cart:cart %} 
+             <div class="col">
+               <div class="input-group mb-3">
+                 <div class="input-group-prepend">
+                   <button class="btn btn-dark btn-sm" id="minus-btn"><i class="fa fa-minus"></i></button>
+                  </div>
+                  <input type="number" id="qty_input" class="form-control form-control-sm" value="1" min="1">
+                  <div class="input-group-prepend">
+                    <button class="btn btn-dark btn-sm" id="plus-btn"><i class="fa fa-plus"></i></button>
+                  </div>
+                </div>
+              </div>
+              {% else %}
               <form action="/" method="POST">
                 {% csrf_token %}
                 <input type="text" name="productId" value="{{product.id}}">
                 <button type="submit" class="btn bg-primary"><i class="fa fa-cart-plus mr-2"></i> Add to cart</button>
               </form>
+              {% endif %}
           </div>
       </div>
     </div>  

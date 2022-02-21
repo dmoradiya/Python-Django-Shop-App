@@ -29,7 +29,8 @@ class Product_List(View):
                         {
                             'category' : category,
                             'categories' : categories,
-                            'products' : page_obj,                             
+                            'products' : page_obj, 
+                            'cart': request.session.get(settings.CART_SESSION_ID)
                         })
 
     def post(self, request):
