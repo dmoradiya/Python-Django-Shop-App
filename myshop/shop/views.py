@@ -9,7 +9,11 @@ from django.conf import settings
 # List View Page
 class Product_List(View):
 
+    
+        
+
     def get(self, request, category_slug=None):
+        
         category = None
         categories = Category.objects.all()
         products = Product.objects.filter(available = True)
@@ -29,37 +33,50 @@ class Product_List(View):
                         {
                             'category' : category,
                             'categories' : categories,
-                            'products' : page_obj, 
-                            'cart': request.session.get(settings.CART_SESSION_ID)
+                            'products' : page_obj                           
                         })
 
     def post(self, request):
+
+        self.session = request.session
+        cart = self.session.get('cart')
+        if not cart:
+            cart = self.session['cart'] = {}
+        self.cart = cart
+
         # Get ProductID from add to cart form
         productId = request.POST.get('productId')
+        removeQty = request.POST.get('removeQty')
 
-        cart = request.session.get(settings.CART_SESSION_ID)
-        print('first cart obj : ',cart)
+        cart = request.session.get('cart')       
         
         if cart:
             quantity = cart.get(productId)
-            print(quantity)
+            print('qty',quantity)
+           
             if quantity:
-                cart[productId] = quantity + 1
+                if removeQty:
+                    if quantity <= 1:
+                        cart.pop(productId)
+                    else:
+                        cart[productId] = quantity - 1
+
+                else:
+                    cart[productId] = quantity + 1
             else:
                 cart[productId] = 1
         else:
             cart = {}
+            cart[productId] = 1
 
-        request.session['settings.CART_SESSION_ID'] = cart
+        request.session['cart'] = cart
 
-        print('cart :', request.session['settings.CART_SESSION_ID'])
+        print('cart :', request.session['cart'])
         
         return redirect('/')
 
 # Detail View Page
 def product_detail(request, id, slug):
-
-    # request.session.get(settings.CART_SESSION_ID).clear()
 
     product = get_object_or_404(Product, 
                                 id=id,

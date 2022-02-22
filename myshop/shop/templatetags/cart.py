@@ -1,4 +1,3 @@
-from operator import truediv
 from django import template
 
 register = template.Library()
@@ -10,3 +9,11 @@ def is_in_cart(product, cart):
         if int(productId) == product.id:
             return True
     return False
+
+@register.filter(name='cart_qty')
+def cart_qty(product, cart):
+    keys = cart.keys()
+    for productId in keys:
+        if int(productId) == product.id:
+            return cart.get(productId)
+    return 0
