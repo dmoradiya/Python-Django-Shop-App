@@ -24,15 +24,20 @@ class Cart(object):
         product_id = str(product.id)
         if product_id not in self.cart:
             self.cart[product_id] = {'quantity': 0,
-                                     'price': str(product.price)}
+                                     'price': str(product.price),
+                                     'productTotal': str(quantity*float(product.price))
+                                      }
+
+       
+
         if addQty:
             self.cart[product_id]['quantity'] += quantity
         
         if removeQty:
             # if quantity >= 1:
             #     self.cart[product_id]['quantity'] -= quantity
-            qty = self.cart[product_id]['quantity']
-            if qty <= 0:
+            
+            if quantity == 1:
                     self.remove(product)
             else:
                     self.cart[product_id]['quantity'] -= quantity
