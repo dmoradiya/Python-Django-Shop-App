@@ -15,5 +15,7 @@ def cart_qty(product, cart):
     keys = cart.keys()
     for productId in keys:
         if int(productId) == product.id:
-            return cart.get(productId)
+            return int(cart[productId]['quantity'])
     return 0
+
+

@@ -14,58 +14,8 @@
             <div class="col align-self-center text-right text-muted"> items</div>
           </div>
         </div>
-        <div class="row mx-1">
-          <!-- {% for item in cart %}
-          {% with product=item.product %} -->
-          <div class="row main align-items-center my-2">
-                    <div class="col-2">
-                      <a href="{{ product.get_absolute_url }}">
-                        <img class="img-fluid" src="{% if product.image %}{{ product.image.url }}
-                        {% else %}{% static "img/no_image.png" %}{% endif %}">
-                      </a>
-                    </div>
-                    <div class="col">                        
-                        <div class="row"></div>
-                    </div>
-                    <div class="col"> 
-                      <!-- <form action="{% url "cart:cart_add" product.id %}" method="post">
-                        {{ item.update_quantity_form.quantity }}
-                        {{ item.update_quantity_form.override }}
-                        {% csrf_token %}
-                        <input type="submit" value="Update">
-                      </form> -->
-                    </div>
-                    <div class="col">$</div>
-                    <div class="col">$</div>
-                    <div class="col">
-                      <!-- <form action="{% url "cart:cart_remove" product.id %}" method="post">
-                         <input type="submit" value="Remove">
-                         {% csrf_token %}
-                       </form> -->
-                    </div>
-                  </div>
-                  <!-- {% endwith %}
-                  {% endfor %} -->
-            </div>           
-            <div class="back-to-shop">
-              <p class="text-right">
-                <a href="{% url "shop:product_list" %}" class="button
-                light">&leftarrow;Continue shopping</a>                
-              </p>
-            </div>
         </div>
-        <div class="card col-12 col-md-4 summary">
-            <div class="border-bottom">
-                <h4><b>Summary</b></h4>               
-            </div>               
-            <div class="row">
-                <div class="col">TOTAL PRICE:</div>
-                <div class="col text-right">$</div>
-            </div>
-            <div class="w-auto">
-              <button class="btn btn-primary"> <a class="text-white" href="{% url "orders:order_create" %}">Checkout</a></button>
-            </div>
-        </div>
+       
 </div>
 
 

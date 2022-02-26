@@ -1,6 +1,6 @@
 {% extends "shop/base.html" %}
 {% load static %}
-{% load cart %}
+{% load cartFilters %}
 {% block title %}
   {% if category %}{{ category.name }}{% else %}Products{% endif %}
 {% endblock %}
@@ -33,33 +33,32 @@
               <h4 class="mb-0 font-weight-semibold">${{product.price}}</h4>
               <div> <i class="fa fa-star star"></i> <i class="fa fa-star star"></i> <i class="fa fa-star star"></i> <i class="fa fa-star star"></i> </div>
               <div class="text-muted mb-3">34 reviews</div> 
-             {% if product|is_in_cart:request.session.cart %} 
-             <div class="col">
+             {% if product|is_in_cart:cartContext.cart %} 
+            <div class="col">
                <div class="input-group mb-3">
                  <div class="input-group-prepend">
-                    <form action="/" method="POST">
+                    <form action="{% url "cart:cart_edit" product.id %}" method="POST">
                       {% csrf_token %}
-                      <input hidden type="text" name="productId" value="{{product.id}}">
+                      <!-- <input hidden type="text" name="productId" value="{{product.id}}"> -->
                       <input hidden type="text" name="removeQty" value="True">
                       <button class="btn btn-dark btn-sm" id="minus-btn"><i class="fa fa-minus"></i></button>
                     </form>
                   </div>
-                  <input type="number" id="qty_input" class="form-control form-control-sm" value={{product|cart_qty:request.session.cart}} min="1">
-                  <span>In Cart</span>
+                  <span class="mx-2 mt-1">{{product|cart_qty:cartContext.cart}}</span>
                   <div class="input-group-prepend">
-                    <form action="/" method="POST">
+                    <form action="{% url "cart:cart_edit" product.id %}" method="POST">
                       {% csrf_token %}
-                      <input hidden type="text" name="productId" value="{{product.id}}">
+                      <input hidden type="text" name="addQty" value="True">
                       <button class="btn btn-dark btn-sm" id="plus-btn"><i class="fa fa-plus"></i></button>
                     </form>
                   </div>
                 </div>
-              </div>
-              {% else %}
-              <form action="/" method="POST">
-                {% csrf_token %}
-                <input type="text" name="productId" value="{{product.id}}">
-                <button type="submit" class="btn bg-primary"><i class="fa fa-cart-plus mr-2"></i> Add to cart</button>
+              </div> 
+              {% else %}             
+              <form action="{% url "cart:cart_edit" product.id %}" method="POST">
+                {% csrf_token %}     
+                 <input hidden type="text" name="addQty" value="True">          
+                 <button type="submit" class="btn bg-primary"><i class="fa fa-cart-plus mr-2"></i> Add to cart</button>
               </form>
               {% endif %}
           </div>

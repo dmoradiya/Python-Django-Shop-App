@@ -7,9 +7,7 @@ from django.conf import settings
 
 
 # List View Page
-class Product_List(View):
-
-    
+class Product_List(View):   
         
 
     def get(self, request, category_slug=None):
