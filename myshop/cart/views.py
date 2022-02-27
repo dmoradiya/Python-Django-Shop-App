@@ -28,9 +28,9 @@ def cart_edit(request, product_id):
                 )
 
     
-    return redirect('cart:cart_detail')
+    # return redirect('shop:product_list')
     
-    # return HttpResponseRedirect(request.path_info)
+    return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
 
 @require_POST
 def cart_remove(request, product_id):

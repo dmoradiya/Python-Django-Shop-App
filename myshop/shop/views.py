@@ -34,44 +34,7 @@ class Product_List(View):
                             'products' : page_obj                           
                         })
 
-    def post(self, request):
-
-        self.session = request.session
-        cart = self.session.get('cart')
-        if not cart:
-            cart = self.session['cart'] = {}
-        self.cart = cart
-
-        # Get ProductID from add to cart form
-        productId = request.POST.get('productId')
-        removeQty = request.POST.get('removeQty')
-
-        cart = request.session.get('cart')       
-        
-        if cart:
-            quantity = cart.get(productId)
-            print('qty',quantity)
-           
-            if quantity:
-                if removeQty:
-                    if quantity <= 1:
-                        cart.pop(productId)
-                    else:
-                        cart[productId] = quantity - 1
-
-                else:
-                    cart[productId] = quantity + 1
-            else:
-                cart[productId] = 1
-        else:
-            cart = {}
-            cart[productId] = 1
-
-        request.session['cart'] = cart
-
-        print('cart :', request.session['cart'])
-        
-        return redirect('/')
+    
 
 # Detail View Page
 def product_detail(request, id, slug):

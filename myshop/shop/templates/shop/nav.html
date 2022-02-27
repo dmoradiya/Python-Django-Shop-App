@@ -17,7 +17,7 @@
     <div class="d-flex align-items-center">
       <!-- Icon -->
        <div class="cart">
-        {% with total_items=cartContext|length %}
+        {% with total_items=cartContext.get_product_count %}
           {% if total_items > 0 %}
             Your cart:
             <a href="{% url "cart:cart_detail" %}">

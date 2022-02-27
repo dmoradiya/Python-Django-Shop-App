@@ -1,4 +1,5 @@
 from decimal import Decimal
+from unicodedata import decimal
 from django.conf import settings
 from shop.models import Product
 
@@ -25,22 +26,28 @@ class Cart(object):
         if product_id not in self.cart:
             self.cart[product_id] = {'quantity': 0,
                                      'price': str(product.price),
-                                     'productTotal': str(quantity*float(product.price))
+                                     'productTotalPrice': str(product.price)
                                       }
 
        
 
         if addQty:
-            self.cart[product_id]['quantity'] += quantity
+            self.cart[product_id]['quantity'] += quantity     
+            newQty = self.cart[product_id]['quantity']       
+            self.cart[product_id]['productTotalPrice'] = str(Decimal(product.price)*newQty)
+        self.save()
+        
         
         if removeQty:
             # if quantity >= 1:
             #     self.cart[product_id]['quantity'] -= quantity
             
-            if quantity == 1:
-                    self.remove(product)
+            if self.cart[product_id]['quantity'] > 1:
+                self.cart[product_id]['quantity'] -= quantity
+                newQty = self.cart[product_id]['quantity']       
+                self.cart[product_id]['productTotalPrice'] = str(Decimal(product.price)*newQty)
             else:
-                    self.cart[product_id]['quantity'] -= quantity
+                self.remove(product)
         self.save()
 
     def save(self):
@@ -72,11 +79,11 @@ class Cart(object):
             item['total_price'] = item['price'] * item['quantity']
             yield item
 
-    def __len__(self):
+    def get_product_count(self):
         """
         Count all items in the cart.
         """
-        return sum(item['quantity'] for item in self.cart.values())
+        return len([key for key in self.cart.keys()])
 
     def get_total_price(self):
         return sum(Decimal(item['price']) * item['quantity'] for item in self.cart.values())
