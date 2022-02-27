@@ -26,15 +26,15 @@ class Cart(object):
         if product_id not in self.cart:
             self.cart[product_id] = {'quantity': 0,
                                      'price': str(product.price),
-                                     'productTotalPrice': str(product.price)
+                                    #  'productTotalPrice': str(product.price)
                                       }
 
        
 
         if addQty:
             self.cart[product_id]['quantity'] += quantity     
-            newQty = self.cart[product_id]['quantity']       
-            self.cart[product_id]['productTotalPrice'] = str(Decimal(product.price)*newQty)
+            # newQty = self.cart[product_id]['quantity']       
+            # self.cart[product_id]['productTotalPrice'] = str(Decimal(product.price)*newQty)
         self.save()
         
         
@@ -44,8 +44,8 @@ class Cart(object):
             
             if self.cart[product_id]['quantity'] > 1:
                 self.cart[product_id]['quantity'] -= quantity
-                newQty = self.cart[product_id]['quantity']       
-                self.cart[product_id]['productTotalPrice'] = str(Decimal(product.price)*newQty)
+                # newQty = self.cart[product_id]['quantity']       
+                # self.cart[product_id]['productTotalPrice'] = str(Decimal(product.price)*newQty)
             else:
                 self.remove(product)
         self.save()
@@ -74,10 +74,12 @@ class Cart(object):
         cart = self.cart.copy()
         for product in products:
             cart[str(product.id)]['product'] = product
+            print('cart_value:', cart.values())
         for item in cart.values():
             item['price'] = Decimal(item['price'])
             item['total_price'] = item['price'] * item['quantity']
             yield item
+            print(item)
 
     def get_product_count(self):
         """
