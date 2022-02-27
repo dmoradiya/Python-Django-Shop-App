@@ -10,8 +10,7 @@
           <div class="row border-bottom">
             <div class="col">
               <h4><b>Shopping Cart</b></h4>
-            </div>
-            <div class="col align-self-center text-right text-muted"> items</div>
+            </div>            
           </div>
         </div>
         <div class="row mx-1">
@@ -23,17 +22,37 @@
                         <img class="img-fluid" src="{% if product.image %}{{ product.image.url }}
                         {% else %}{% static "img/no_image.png" %}{% endif %}">
                       </a>
-                    </div>
-                    <div class="col">                        
-                        <div class="row"></div>
-                    </div>
-                    <div class="col"> 
-                     Quantity: {{product.quantity}}
-                    </div>
+                    </div>                   
                     <div class="col">${{product.price}}</div>
-                    <div class="col">${{product.productTotalPrice}}}</div>
                     <div class="col">
-                     Remove
+                       <div class="d-flex align-items-center justify-content-center">
+                    <div>
+                    <form action="{% url "cart:cart_edit" product.id %}" method="POST">
+                      {% csrf_token %}
+                      <!-- <input hidden type="text" name="productId" value="{{product.id}}"> -->
+                      <input hidden type="text" name="removeQty" value="True">
+                      <button class="btn btn-dark btn-sm" id="minus-btn"><i class="fa fa-minus"></i></button>
+                    </form>  
+                    </div>                
+                  <div class="mx-2 mt-1">{{item.quantity}}</div>
+                  <div>
+                    <form action="{% url "cart:cart_edit" product.id %}" method="POST">
+                      {% csrf_token %}
+                      <input hidden type="text" name="addQty" value="True">
+                      <button class="btn btn-dark btn-sm" id="plus-btn"><i class="fa fa-plus"></i></button>
+                    </form>
+                    </div>
+                    </div>                   
+                    </div>
+                    <div class="col">${{item.total_price}}</div>
+                    <div class="col">
+                       <div>
+                    <form action="{% url "cart:cart_remove" product.id %}" method="POST">
+                      {% csrf_token %}
+                      <button class="btn btn-dark btn-sm" id="plus-btn"><i class="fa fa-trash-can"></i></button>
+                    </form>
+                    </div>
+                     
                     </div>
                   </div>
                   {% endwith %}
