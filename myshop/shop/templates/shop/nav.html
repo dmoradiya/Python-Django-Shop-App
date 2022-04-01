@@ -29,7 +29,15 @@
           {% endif %}
         {% endwith %}
       </div>
-      
+      <div> 
+        <!-- Show only if the user is authenticated  -->       
+          {% if request.user.is_authenticated %}
+            Hello {{ request.user.first_name }}, <span class="m-2"><a href="{% url "logout" %}">Logout</a></span>
+            
+          {% else %}
+            <span class="m-2"><a href="{% url "login" %}">Log-in</a></span>
+          {% endif %}        
+      </div>      
     </div>    
     </div>
   </div>

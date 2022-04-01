@@ -37,6 +37,9 @@ class Product_List(View):
     
 
 # Detail View Page
+# Login required to view Product Detail view
+from django.contrib.auth.decorators import login_required
+@login_required
 def product_detail(request, id, slug):
 
     product = get_object_or_404(Product, 
