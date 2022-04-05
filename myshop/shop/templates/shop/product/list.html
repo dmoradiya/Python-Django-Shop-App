@@ -5,12 +5,12 @@
   {% if category %}{{ category.name }}{% else %}Products{% endif %}
 {% endblock %}
 {% block content %}
-<div class="mx-2">
+
   <!-- Home Page Header --> 
-  <header class="bg-dark py-5">
-      <div class="container px-4 px-lg-5 my-5">
+  <header class="bg-dark py-2">
+      <div class="container px-2 px-lg-2 my-2">
           <div class="text-center text-white">
-            <h1 class="display-4 fw-bolder">
+            <h1 class="display-6 fw-bolder">
               {% if category %}{{ category.name }}{% else %}Browse All New Products{% endif %}
             </h1>
             <p class="lead fw-normal text-white-50 mb-0">Serving Breakfast All day!</p>              
@@ -20,59 +20,76 @@
   <!-- Home Page Header End -->
 
   <!-- Product Grid Start -->
-  <div class="row row-cols-2 row-cols-md-3 row-cols-lg-4 g-4">
-    {% for product in products %}
-    <div class="col">
-      <div class="card">     
-        <div class="card-body">
-            <div class="card-img-actions">
+  <!-- Product Grid End -->
+
+ 
+  <section class="py-4">
+    <div class="container px-4 px-lg-5 mt-5">
+      <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
+        {% for product in products %}
+        <div class="col mb-5">
+            <div class="card h-100">
+                <!-- Sale badge-->
+                <div class="badge bg-dark text-white position-absolute" style="top: 0.5rem; right: 0.5rem">Sale</div>
+                <!-- Product image-->              
                 <a href="{{ product.get_absolute_url }}">
-                  <img class="card-img img-fluid" width="96" height="350" alt="" src="{% if product.image %}{{ product.image.url }}{% else %}{% static "img/no_image.png" %}{% endif %}">
+                  <img class="card-img-top" alt="" src="{% if product.image %}{{ product.image.url }}{% else %}{% static "img/no_image.png" %}{% endif %}">
                 </a>
-            </div>
-          </div>
-          <div class="card-body bg-light text-center">
-            <div class="mb-2">
-                  <h6 class="font-weight-semibold mb-2"> 
-                    <a href="{{ product.get_absolute_url }}" class="text-default mb-2" data-abc="true">{{ product.name }}</a> 
-                  </h6>
-              </div>
-              <h4 class="mb-0 font-weight-semibold">${{product.price}}</h4>
-              <div> <i class="fa fa-star star"></i> <i class="fa fa-star star"></i> <i class="fa fa-star star"></i> <i class="fa fa-star star"></i> </div>
-              <div class="text-muted mb-3">34 reviews</div> 
-             {% if product|is_in_cart:cartContext.cart %}                
-              <div class="card-body d-flex align-items-center justify-content-center">
-                <div class="input-group-prepend">
-                    <form action="{% url "cart:cart_edit" product.id %}" method="POST">
-                      {% csrf_token %}
-                      <!-- <input hidden type="text" name="productId" value="{{product.id}}"> -->
-                      <input hidden type="text" name="removeQty" value="True">
-                      <button class="btn btn-dark btn-sm" id="minus-btn"><i class="fa fa-minus"></i></button>
-                    </form>  
-                    </div>                
-                  <div class="mx-2 mt-1">{{product|cart_qty:cartContext.cart}}</div>
-                  <div class="input-group-prepend">
-                    <form action="{% url "cart:cart_edit" product.id %}" method="POST">
-                      {% csrf_token %}
-                      <input hidden type="text" name="addQty" value="True">
-                      <button class="btn btn-dark btn-sm" id="plus-btn"><i class="fa fa-plus"></i></button>
-                    </form>
+                <!-- Product details-->
+                <div class="card-body p-4">
+                    <div class="text-center">
+                        <!-- Product name-->
+                        <h5 class="fw-bolder">{{product.name}}</h5>
+                        <!-- Product reviews-->
+                        <div class="d-flex justify-content-center small text-warning mb-2">
+                            <div class="bi-star-fill"></div>
+                            <div class="bi-star-fill"></div>
+                            <div class="bi-star-fill"></div>
+                            <div class="bi-star-fill"></div>
+                            <div class="bi-star-fill"></div>
+                        </div>
+                        <!-- Product price-->
+                        <span class="text-muted text-decoration-line-through">${{product.price|add:"3"}}</span>
+                        ${{product.price}}
                     </div>
-              </div>         
-              {% else %}             
-              <form action="{% url "cart:cart_edit" product.id %}" method="POST">
-                {% csrf_token %}     
-                 <input hidden type="text" name="addQty" value="True">          
-                 <button type="submit" class="btn bg-primary"><i class="fa fa-cart-plus mr-2"></i> Add to cart</button>
-              </form>
-              {% endif %}
-          </div>
+                </div>
+                <!-- Product cart actions-->
+                <div class="card-footer p-4 pt-0 border-top-0 bg-transparent text-center">
+                    {% comment %} <div class="text-center"><a class="btn btn-outline-dark mt-auto" href="#">Add to cart</a></div> {% endcomment %}
+                    {% if product|is_in_cart:cartContext.cart %}                
+                    <div class="d-flex align-items-center justify-content-center">
+                      <div class="input-group-prepend">
+                        <form action="{% url "cart:cart_edit" product.id %}" method="POST">
+                          {% csrf_token %}
+                          <!-- <input hidden type="text" name="productId" value="{{product.id}}"> -->
+                          <input hidden type="text" name="removeQty" value="True">
+                          <button class="btn btn-dark btn-sm" id="minus-btn"><i class="fa fa-minus"></i></button>
+                        </form>  
+                      </div>                
+                      <div class="mx-2 mt-1">{{product|cart_qty:cartContext.cart}}</div>
+                      <div class="input-group-prepend">
+                        <form action="{% url "cart:cart_edit" product.id %}" method="POST">
+                          {% csrf_token %}
+                          <input hidden type="text" name="addQty" value="True">
+                          <button class="btn btn-dark btn-sm" id="plus-btn"><i class="fa fa-plus"></i></button>
+                        </form>
+                      </div>
+                    </div>         
+                    {% else %}             
+                    <form action="{% url "cart:cart_edit" product.id %}" method="POST">
+                      {% csrf_token %}     
+                      <input hidden type="text" name="addQty" value="True">          
+                      <button type="submit" class="btn btn-outline-dark mt-auto">Add to cart</button>
+                    </form>
+                    {% endif %}
+                  </div>
+                    
+                  </div>
+        </div> 
+        {% endfor %}     
       </div>
-    </div>  
-    {% endfor %}
-  </div>
-</div>
-<!-- Product Grid End -->
+    </div>
+  </section>
 
 <!-- Pagination Start -->
 {% if products.paginator.num_pages > 1 %}
