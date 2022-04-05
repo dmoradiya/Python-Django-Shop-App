@@ -6,11 +6,18 @@
 {% endblock %}
 {% block content %}
 <div class="mx-2">
-  <!-- Home Page Title Start -->
-  <h1>
-    {% if category %}{{ category.name }}{% else %}Browse All Products{% endif %}
-  </h1>
-  <!-- Home Page Title End -->
+  <!-- Home Page Header --> 
+  <header class="bg-dark py-5">
+      <div class="container px-4 px-lg-5 my-5">
+          <div class="text-center text-white">
+            <h1 class="display-4 fw-bolder">
+              {% if category %}{{ category.name }}{% else %}Browse All New Products{% endif %}
+            </h1>
+            <p class="lead fw-normal text-white-50 mb-0">Serving Breakfast All day!</p>              
+          </div>
+      </div>
+  </header>
+  <!-- Home Page Header End -->
 
   <!-- Product Grid Start -->
   <div class="row row-cols-2 row-cols-md-3 row-cols-lg-4 g-4">
