@@ -5,76 +5,140 @@
   {{ product.name }}
 {% endblock %}
 {% block content %}  
-<div class="container-fluid mt-2 mb-3">
-    <div class="row row-cols-1 row-cols-md-2">
-        <div class="col">
-            <div>
-                <div class="images p-3">                      
-                  <img src="{% if product.image %}{{ product.image.url }}{% else %}
-                    {% static "img/no_image.png" %}{% endif %}" width="100%">                      
+
+<!-- Product details section-->
+<section class="py-5">
+    <div class="container px-4 px-lg-5 my-5">
+        <div class="row gx-4 gx-lg-5 align-items-center">
+            <div class="col-md-6"><img class="card-img-top mb-5 mb-md-0" 
+              src="{% if product.image %}{{ product.image.url }}{% else %}
+                    {% static "img/no_image.png" %}{% endif %}" alt="..." /></div>
+            <div class="col-md-6">
+                <div class="small mb-1"> 
+                      <a class="text-decoration-none text-dark" href="{{ product.category.get_absolute_url }}">
+                        CATEGORY : {{ product.category|upper }}
+                      </a>                    
                 </div>
-            </div>           
-        </div>
-        <div class="col">
-            <div>
-                <div class="product">
-                  <div class="mt-1 mb-3"> 
-                    <h3 class="text-uppercase">{{ product.name }}</h3>
-                    <h5>
-                      <a href="{{ product.category.get_absolute_url }}">
-                        {{ product.category }}
-                      </a>
-                    </h5>
-                      <div class="price d-flex flex-row align-items-center"> <span class="act-price">${{ product.price }}</span>
-                      </div>
-                  </div>
-                <div>                  
-                             <!-- add to cart form -->
+                <h1 class="display-5 fw-bolder">{{ product.name }}</h1>
+                 <!-- Product reviews-->
+                        <div class="d-flex small text-warning mb-2">
+                            <div class="bi-star-fill"></div>
+                            <div class="bi-star-fill"></div>
+                            <div class="bi-star-fill"></div>
+                            <div class="bi-star-fill"></div>
+                            <div class="bi-star-fill"></div>
+                        </div>
+                <div class="fs-5 mb-5">
+                    <span class="text-decoration-line-through">${{product.price|add:"3"}}</span>
+                    <span>${{product.price}}</span>
                 </div>
-                <div class="product-description">                    
-                    <div class="mt-2"> <span class="font-weight-bold">Description</span>
-                        <p>{{ product.description|linebreaks }}</p>                        
-                    </div>                    
-                </div>
-                 <div class="mt-2">
-                <h6>Reviews</h6>
-                <div class="d-flex flex-row">
-                    <div class="stars"> <i class="fa fa-star"></i> <i class="fa fa-star"></i> <i class="fa fa-star"></i> <i class="fa fa-star"></i> </div> <span class="ml-1 font-weight-bold">4.6</span>
-                </div> 
-                <div>
-                  {% if product|is_in_cart:cartContext.cart %}                
-                  <div class="card-body d-flex">
-                    <div class="input-group-prepend">
-                      <form action="{% url "cart:cart_edit" product.id %}" method="POST">
-                        {% csrf_token %}
-                        <!-- <input hidden type="text" name="productId" value="{{product.id}}"> -->
-                        <input hidden type="text" name="removeQty" value="True">
-                        <button class="btn btn-dark btn-sm" id="minus-btn"><i class="fa fa-minus"></i></button>
-                      </form>  
+                <p class="lead">{{ product.description|linebreaks }}</p>
+                
+                <!-- Product cart actions-->
+                <div class="d-flex">
+                    {% comment %} <div class="text-center"><a class="btn btn-outline-dark mt-auto" href="#">Add to cart</a></div> {% endcomment %}
+                    {% if product|is_in_cart:cartContext.cart %}                
+                    <div class="d-flex align-items-center justify-content-center">
+                      <div class="input-group-prepend">
+                        <form action="{% url "cart:cart_edit" product.id %}" method="POST">
+                          {% csrf_token %}
+                          <!-- <input hidden type="text" name="productId" value="{{product.id}}"> -->
+                          <input hidden type="text" name="removeQty" value="True">
+                          <button class="btn btn-dark btn-sm" id="minus-btn"><i class="fa fa-minus"></i></button>
+                        </form>  
                       </div>                
-                    <div class="mx-2 mt-1">{{product|cart_qty:cartContext.cart}}</div>
-                    <div class="input-group-prepend">
-                      <form action="{% url "cart:cart_edit" product.id %}" method="POST">
-                        {% csrf_token %}
-                        <input hidden type="text" name="addQty" value="True">
-                        <button class="btn btn-dark btn-sm" id="plus-btn"><i class="fa fa-plus"></i></button>
-                      </form>
+                      <div class="mx-2 mt-1">{{product|cart_qty:cartContext.cart}}</div>
+                      <div class="input-group-prepend">
+                        <form action="{% url "cart:cart_edit" product.id %}" method="POST">
+                          {% csrf_token %}
+                          <input hidden type="text" name="addQty" value="True">
+                          <button class="btn btn-dark btn-sm" id="plus-btn"><i class="fa fa-plus"></i></button>
+                        </form>
                       </div>
-                </div>         
-                {% else %}             
-                <form action="{% url "cart:cart_edit" product.id %}" method="POST">
-                  {% csrf_token %}     
-                   <input hidden type="text" name="addQty" value="True">          
-                   <button type="submit" class="btn bg-primary"><i class="fa fa-cart-plus mr-2"></i> Add to cart</button>
-                </form>
-                {% endif %}       
-                  
-                </div>
+                    </div>         
+                    {% else %}             
+                    <form action="{% url "cart:cart_edit" product.id %}" method="POST">
+                      {% csrf_token %}     
+                      <input hidden type="text" name="addQty" value="True">          
+                      <button type="submit" class="btn btn-outline-dark mt-auto">Add to cart</button>
+                    </form>
+                    {% endif %}
+                  </div>                 
+
             </div>
-            </div>            
         </div>
     </div>
-</div>
+</section>
+<!-- Related items section-->
+<section class="py-5 bg-light">
+  <div class="container px-4 px-lg-5 mt-5">
+    <h2 class="fw-bolder mb-4">Related products</h2>
+    <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4">            
+          {% for related_product in related_products %}
+            <div class="col mb-5">
+                <div class="card h-100">
+                    <!-- Sale badge-->
+                    <div class="badge bg-dark text-white position-absolute" style="top: 0.5rem; right: 0.5rem">Sale</div>
+                    <!-- Product image-->
+                    <a href="{{ related_product.get_absolute_url }}">
+                      <img class="card-img-top" src="{% if related_product.image %}{{ related_product.image.url }}{% else %}
+                      {% static "img/no_image.png" %}{% endif %}" alt="..." />
+                    </a>
+                    <!-- Product details-->
+                    <div class="card-body p-4">
+                        <div class="text-center">
+                            <!-- Product name-->
+                            <h5 class="fw-bolder">{{related_product.name}}</h5>
+                            <!-- Product reviews-->
+                            <div class="d-flex justify-content-center small text-warning mb-2">
+                                <div class="bi-star-fill"></div>
+                                <div class="bi-star-fill"></div>
+                                <div class="bi-star-fill"></div>
+                                <div class="bi-star-fill"></div>
+                                <div class="bi-star-fill"></div>
+                            </div>
+                            <!-- Product price-->
+                            <span class="text-muted text-decoration-line-through">${{related_product.price|add:"3"}}</span>
+                            ${{related_product.price}}
+                        </div>
+                    </div>
+                    <!-- Product actions-->
+                     <div class="card-footer p-4 pt-0 border-top-0 bg-transparent text-center">
+                    {% comment %} <div class="text-center"><a class="btn btn-outline-dark mt-auto" href="#">Add to cart</a></div> {% endcomment %}
+                    {% if related_product|is_in_cart:cartContext.cart %}                
+                    <div class="d-flex align-items-center justify-content-center">
+                      <div class="input-group-prepend">
+                        <form action="{% url "cart:cart_edit" related_product.id %}" method="POST">
+                          {% csrf_token %}
+                          <!-- <input hidden type="text" name="related_productId" value="{{related_product.id}}"> -->
+                          <input hidden type="text" name="removeQty" value="True">
+                          <button class="btn btn-dark btn-sm" id="minus-btn"><i class="fa fa-minus"></i></button>
+                        </form>  
+                      </div>                
+                      <div class="mx-2 mt-1">{{related_product|cart_qty:cartContext.cart}}</div>
+                      <div class="input-group-prepend">
+                        <form action="{% url "cart:cart_edit" related_product.id %}" method="POST">
+                          {% csrf_token %}
+                          <input hidden type="text" name="addQty" value="True">
+                          <button class="btn btn-dark btn-sm" id="plus-btn"><i class="fa fa-plus"></i></button>
+                        </form>
+                      </div>
+                    </div>         
+                    {% else %}             
+                    <form action="{% url "cart:cart_edit" related_product.id %}" method="POST">
+                      {% csrf_token %}     
+                      <input hidden type="text" name="addQty" value="True">          
+                      <button type="submit" class="btn btn-outline-dark mt-auto">Add to cart</button>
+                    </form>
+                    {% endif %}
+                  </div>  
+                </div>
+              </div>            
+              {% endfor %}     
+        </div>
+    </div>
+</section>
+
 
 
 {% endblock %}

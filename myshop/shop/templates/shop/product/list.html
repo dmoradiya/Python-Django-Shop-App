@@ -82,10 +82,9 @@
                       <button type="submit" class="btn btn-outline-dark mt-auto">Add to cart</button>
                     </form>
                     {% endif %}
+                  </div>                    
                   </div>
-                    
-                  </div>
-        </div> 
+          </div> 
         {% endfor %}     
       </div>
     </div>
@@ -96,35 +95,35 @@
 <nav aria-label="Page navigation example">
         <ul class="pagination justify-content-center">
 
+            {% comment %} <li class="page-item {% if not products.has_previous %} disabled {% endif %}">
+                <a class="page-link text-dark" href="?page=1" tabindex="-1">FIRST</a>
+            </li> {% endcomment %}
             <li class="page-item {% if not products.has_previous %} disabled {% endif %}">
-                <a class="page-link" href="?page=1" tabindex="-1">FIRST</a>
-            </li>
-            <li class="page-item {% if not products.has_previous %} disabled {% endif %}">
-                <a class="page-link" href="{% if products.has_previous %}?page={{ products.previous_page_number }}{% endif %} " tabindex="-1">Previous</a>
+                <a class="page-link text-dark" href="{% if products.has_previous %}?page={{ products.previous_page_number }}{% endif %} " tabindex="-1"><i class="bi bi-chevron-left"></i></a>
             </li>
 
             {% if products.number|add:'-4' > 1 %}
-                <li class="page-item disabled"><a class="page-link" href="?page={{ products.number|add:'-5' }}">&hellip;</a></li>
+                <li class="page-item disabled"><a class="page-link text-dark" href="?page={{ products.number|add:'-5' }}">&hellip;</a></li>
             {% endif %}
 
             {% for i in products.paginator.page_range %}
                 {% if products.number == i %}
-                    <li class="active page-item disabled"><a class="page-link" href="?page={{ i }}">{{ i }}</a></li>
+                    <li class="active page-item disabled"><a class="page-link text-white bg-dark border border-dark" href="?page={{ i }}">{{ i }}</a></li>
                 {% elif i > products.number|add:'-5' and i < products.number|add:'5' %}
-                    <li class="page-item"><a class="page-link" href="?page={{ i }}">{{ i }}</a></li>
+                    <li class="page-item"><a class="page-link text-dark" href="?page={{ i }}">{{ i }}</a></li>
                 {% endif %}
             {% endfor %}
 
             {% if products.paginator.num_pages > products.number|add:'4' %}
-                <li class="page-item disabled"><a class="page-link" href="?page={{ products.number|add:'5' }}">&hellip;</a></li>
+                <li class="page-item disabled"><a class="page-link text-dark" href="?page={{ products.number|add:'5' }}">&hellip;</a></li>
             {% endif %}
 
             <li class="page-item {% if not products.has_next %} disabled {% endif %}">
-                <a class="page-link" href="{% if products.has_next %} ?page={{ products.next_page_number }} {% endif %}">Next</a>
+                <a class="page-link text-dark" href="{% if products.has_next %} ?page={{ products.next_page_number }} {% endif %}"><i class="bi bi-chevron-right"></i></a>
             </li>
-            <li class="page-item {% if not products.has_next %} disabled {% endif %}">
-                <a class="page-link" href="{% if products.has_next %} ?page={{ products.paginator.num_pages }}  {% endif %}">LAST</a>
-            </li>
+            {% comment %} <li class="page-item {% if not products.has_next %} disabled {% endif %}">
+                <a class="page-link text-dark" href="{% if products.has_next %} ?page={{ products.paginator.num_pages }}  {% endif %}">LAST</a>
+            </li> {% endcomment %}
         </ul>
     </nav>  
   {% endif %}
