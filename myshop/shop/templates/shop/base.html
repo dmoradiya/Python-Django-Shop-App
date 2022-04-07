@@ -23,18 +23,19 @@
 
     <title>{% block title %}My Shop{% endblock %}</title>
   </head>
-  <body>
-    <!-- Navigation Start -->
-    {% include "shop/nav.html" %}
-    <!-- Navigation End -->
-    
+  <body class="d-flex flex-column min-vh-100">
+    <header class="header">  
+      <!-- Navigation Start -->
+      {% include "shop/nav.html" %}
+      <!-- Navigation End -->    
+    </header>
+
     <!-- Main Content Start -->
-    <section id="content">
+    <section id="content" class="flex-grow-1">
       {% block content %}
       {% endblock %}
     </section>
     <!-- Main Content End -->
-
 
     <!-- Footer-->
     <footer class="py-3 bg-dark">
