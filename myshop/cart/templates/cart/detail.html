@@ -5,20 +5,13 @@
 {% endblock %}
 {% block content %}
 <div class="row g-0">
+   {% with total_items=cartContext.get_product_count %}
+      {% if total_items > 0 %}   
         <section class="col-md-8">          
           <div class="m-2 p-4 bg-light">
             <div class="my-3 d-flex justify-content-between">
-                <h2>SHOPPING CART</h2>  
-                 {% with total_items=cartContext.get_product_count %}
-                    {% if total_items > 0 %}                        
-                    <div class="">
-                      {{ total_items }} Item(s)
-                    </div>                    
-                    {% else %}
-                    <div class="badge bg-dark text-white ms-1 rounded-pill">0 Item</div>
-                    {% endif %}
-                  {% endwith %}             
-                             
+                <h2>SHOPPING CART</h2>                                     
+                <div class="">{{ total_items }} Items</div>                            
             </div> 
             <div class="border-bottom my-2"></div>  
             {% for item in cart %}
@@ -96,8 +89,18 @@
               <button class="btn btn-dark mt-auto"><a class="text-reset text-decoration-none" href="{% url "orders:order_create" %}">Checkout</a></button>
             </div>
           </div>
-        </section>        
+        </section> 
+        {% else %}
+          <div class="d-flex flex-column justify-content-md-center align-items-center position-absolute top-50 start-50 translate-middle">
+            <div class="display-1"><i class="bi bi-cart-x-fill"></i></div>
+            <h4>Your cart is currently empty</h4>
+            <p>Before proceed to checkout you must add some products to your shopping cart</p>
+            <p> You will find a lot of interesting products on our "Shop" page</p>
+            <div>              
+              <button class="btn btn-dark mt-auto"><a class="text-reset text-decoration-none" href="{% url "shop:product_list" %}"><i class="bi bi-arrow-left"></i> Continue Shopping</a></button>
+            </div> 
+          </div>
+      {% endif %}
+    {% endwith %}       
 </div>
-
-
 {% endblock %}

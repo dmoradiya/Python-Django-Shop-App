@@ -3,7 +3,11 @@
   Thank you
 {% endblock %}
 {% block content %}
-  <h1>Thank you</h1>
-  <p>Your order has been successfully completed. Your order number is
-  <strong>{{ order.id }}</strong>.</p>
+<section class="position-absolute top-50 start-50 translate-middle">
+  <div class="container p-5 d-flex flex-column justify-content-md-center align-items-center">    
+    <h4>Thank you</h4>    
+    <p> Your order has been successfully completed</p> 
+    <p>Your order number is <strong>{{ order.id }}</strong></p>   
+  </div>
+</section>
 {% endblock %}
