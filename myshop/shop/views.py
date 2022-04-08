@@ -16,14 +16,14 @@ class Product_List(View):
         
         category = None
         categories = Category.objects.all()
-        products = Product.objects.filter(available = True)
+        products = Product.objects.filter(available = True).order_by('created')
 
 
         if category_slug:
             category = get_object_or_404(Category, slug=(category_slug))
             products = products.filter(category = category)
 
-        paginator = Paginator(products, 4)
+        paginator = Paginator(products, 8) # number of products to display per page
         page_number = request.GET.get('page')
         page_obj = paginator.get_page(page_number)
 
