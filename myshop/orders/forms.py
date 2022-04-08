@@ -7,34 +7,28 @@ class OrderCreateForm(forms.ModelForm):
                   'postal_code', 'city']
         widgets = {
             'first_name': forms.TextInput(attrs={
-                'class': "form-control",
-                'style': 'max-width: 300px;',
-                'placeholder': 'First Name'
+                'class': "form-control",                
+                
                 }),
             'last_name': forms.TextInput(attrs={
-                'class': "form-control",
-                'style': 'max-width: 300px;',
-                'placeholder': 'Last Name'
+                'class': "form-control",               
+                
             }),
             'email': forms.EmailInput(attrs={
-                'class': "form-control", 
-                'style': 'max-width: 300px;',
-                'placeholder': 'Email'
+                'class': "form-control",                
+                
                 }),
             'address': forms.TextInput(attrs={
-                'class': "form-control",
-                'style': 'max-width: 300px;',
-                'placeholder': 'Full Address'
+                'class': "form-control",            
+                
             }),
             'postal_code': forms.TextInput(attrs={
-                'class': "form-control",
-                'style': 'max-width: 300px;',
-                'placeholder': 'Postal Code'
+                'class': "form-control",          
+               
             }),
             'city': forms.TextInput(attrs={
-                'class': "form-control",
-                'style': 'max-width: 300px;',
-                'placeholder': 'City'
+                'class': "form-control",              
+                
             }),    
         }
 

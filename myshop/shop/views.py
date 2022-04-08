@@ -1,3 +1,5 @@
+from asyncore import read
+from unicodedata import category
 from django.shortcuts import render, redirect, get_object_or_404
 from .models import Category, Product
 from cart.forms import CartAddProductForm
@@ -21,7 +23,7 @@ class Product_List(View):
             category = get_object_or_404(Category, slug=(category_slug))
             products = products.filter(category = category)
 
-        paginator = Paginator(products, 8)
+        paginator = Paginator(products, 4)
         page_number = request.GET.get('page')
         page_obj = paginator.get_page(page_number)
 
@@ -37,6 +39,9 @@ class Product_List(View):
     
 
 # Detail View Page
+# Login required to view Product Detail view
+# from django.contrib.auth.decorators import login_required
+# @login_required
 def product_detail(request, id, slug):
 
     product = get_object_or_404(Product, 
@@ -44,7 +49,14 @@ def product_detail(request, id, slug):
                                 slug=slug,
                                 available=True)
 
+    # related product from same category
+    related_products = Product.objects.filter(category=product.category).exclude(id=id)[:4]
+    print('related product',related_products)
+
     # add_to_cart_product_form = CartAddProductForm()
     return render(request, 
                 'shop/product/detail.html',
-                {'product': product})
+                {
+                    'product': product,
+                    'related_products':related_products
+                })

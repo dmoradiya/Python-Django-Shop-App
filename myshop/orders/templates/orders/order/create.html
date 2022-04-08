@@ -3,28 +3,85 @@
   Checkout
 {% endblock %}
 {% block content %}
-<div class="mx-3">
-  <div>
-    <h1>Checkout</h1>
-    <div class="order-info">
-      <h3>Your order</h3>
-      <ul>
-        {% for item in cart %}
-          <li>
-            {{ item.quantity }}x {{ item.product.name }}
-            <span>${{ item.total_price }}</span>
-          </li>
-        {% endfor %}
-      </ul>
-      <p>Total: ${{ cart.get_total_price }}</p>
-    </div>
-    <form method="post" class="order-form">
-      {{ form.as_p }}
-       <div class="form-group">       
-          <p><input class="btn btn-primary" type="submit" value="Place order"></p>
-      </div>
-      {% csrf_token %}
-    </form>
-  </div>
-</div>  
+<div class="row g-0">
+  {% with total_items=cartContext.get_product_count %}
+    {% if total_items > 0 %}    
+        <section class="col-md-6">          
+          <div class="m-2 p-4 bg-light">
+            <div class="my-3">
+                <h2>Checkout</h2>                                     
+            </div>           
+            <div class="my-3 d-flex justify-content-between">
+              <div class="my-2">Order Review</div>                                    
+              <div class="my-2">{{ total_items }} Items</div>            
+            </div>            
+            <div class="border-bottom my-2"></div> 
+            <div>             
+              {% for item in cart %}
+              <div class="my-3 d-flex justify-content-between">             
+                <div>
+                  {{ item.quantity }} X {{ item.product.name }}                  
+                </div>
+                <div>${{ item.total_price }}</div> 
+              </div>
+                <div class="border-bottom my-2"></div> 
+              {% endfor %}
+             
+            </div>                   
+          </div> 
+          <div class="m-2 p-4 bg-light">
+            <div class="my-3 d-flex justify-content-between">             
+                <div>
+                  Subtotal                 
+                </div>
+                <div>${{ cart.get_total_price }}</div> 
+            </div>
+            <div class="border-bottom my-2"></div> 
+             <div class="my-3 d-flex justify-content-between">             
+                <div>
+                  Shipping                 
+                </div>
+                <div>$0.00</div> 
+            </div>
+            <div class="border-bottom my-2"></div> 
+            <div class="my-3 d-flex justify-content-between">             
+                <div>
+                  Tax                 
+                </div>
+                <div>${{ cart.get_total_tax }}</div> 
+            </div>
+            <div class="border-bottom my-2"></div> 
+             <div class="my-3 d-flex justify-content-between">             
+                <div>
+                  Total                 
+                </div>
+                <div>${{ cart.get_total }}</div> 
+            </div>            
+          </div>       
+        </section>
+        <!-- Summary section -->
+        <section class="col-md-6">
+          <div class="m-2 p-4 bg-light">
+            <h2 class="">Billing Details</h2>
+            <form method="post" class="">
+              {{ form.as_p }}
+              <div class="form-group">       
+                  <p><input class="btn btn-dark" type="submit" value="Place order"></p>
+              </div>
+              {% csrf_token %}
+            </form>
+          </div>
+        </section> 
+      {% else %}
+           <div class="d-flex flex-column justify-content-md-center align-items-center position-absolute top-50 start-50 translate-middle">
+            <div class="display-1"><i class="bi bi-cart-x-fill"></i></div>
+            <h4>Your cart is currently empty</h4>
+            <p>Before proceed to checkout you must add some products to your shopping cart</p>            
+            <div>              
+              <button class="btn btn-dark mt-auto"><a class="text-reset text-decoration-none" href="{% url "shop:product_list" %}"><i class="bi bi-arrow-left"></i> Continue Shopping</a></button>
+            </div> 
+          </div>
+      {% endif %}
+  {% endwith %}       
+</div>
 {% endblock %}

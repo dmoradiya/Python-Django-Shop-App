@@ -1,0 +1,28 @@
+{% extends "shop/base.html" %}
+{% load crispy_forms_tags %}
+{% block title %}Log-in{% endblock %}
+{% block content %}
+<section class="row g-0">
+  <div class="col-md-6 col-lg-4 p-5 my-5 mx-auto bg-light">
+    <h2>Log in</h2>
+    {% comment %} {% if form.errors %}
+      <div>
+        Your username and password didn't match.
+        Please try again.
+      </div>  
+    {% endif %} {% endcomment %}
+    
+    <form action="{% url 'login' %}" method="post">
+      <div class="">{{ form|crispy }}</div>
+      {% csrf_token %}
+      <input type="hidden" name="next" value="{{ next }}" />
+      <button type="submit" class="btn btn-dark my-2 w-100">Log In</button>
+    </form>
+    {% comment %} <div class="border-bottom my-2"></div>  {% endcomment %}
+    <div class="my-2"><a class="text-reset text-decoration-none" href="{% url "password_reset" %}">Forgot Password?</a></div>
+    <div>              
+      <button class="btn btn-dark w-100"><a class="text-reset text-decoration-none" href="{% url "register" %}">Don't have an account? Sign Up</a></button>
+    </div>   
+  </div>
+</section>
+{% endblock %}
