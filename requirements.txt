@@ -13,7 +13,6 @@ fontawesomefree==6.0.0
 fonttools==4.30.0
 html5lib==1.1
 kombu==4.6.11
-mysqlclient==2.1.0
 Pillow==9.0.1
 pycparser==2.21
 pydyf==0.1.2

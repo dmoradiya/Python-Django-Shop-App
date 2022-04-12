@@ -1,0 +1,17 @@
+# Connect with AWS EC2 ubuntu server:
+ssh -i "django-myshop-aws-key-pair.pem"(your_project_key_pair.pem) ubuntu(username)@35.183.9.68(Public Ip of your EC2 Instance)
+
+# If you update your Django application, you can restart the Gunicorn process to pick up the changes:
+sudo systemctl restart gunicorn
+
+# If you change Gunicorn socket or service files, reload the daemon and restart the process by typing:
+sudo systemctl daemon-reload
+sudo systemctl restart gunicorn.socket gunicorn.service
+
+# If you change the Nginx server block configuration, test the configuration and then Nginx by typing:
+sudo nginx -t && sudo systemctl restart nginx
+
+
+ref : https://www.digitalocean.com/community/tutorials/how-to-set-up-django-with-postgres-nginx-and-gunicorn-on-ubuntu-20-04
+
+ref SSL : https://djangocentral.com/deploy-django-with-nginx-gunicorn-postgresql-and-lets-encrypt-ssl-on-ubuntu/
